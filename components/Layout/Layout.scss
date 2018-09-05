@@ -1,0 +1,9 @@
+@import "../variables.scss";
+
+.root {
+  color: blue;
+  box-shadow: $shadow-2dp;
+  // background: url(./bg.png);
+  transition-timing-function: $animation-curve-default;
+  transition-duration: $animation-duration-default;
+}
