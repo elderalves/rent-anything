@@ -1,11 +1,14 @@
 const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
+const Browsersync = require('browser-sync');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const modeConfig = env => require(`./tools/webpack.${env}`)(env);
 const presetConfig = require('./tools/loadPresets');
 
-module.exports = ({ mode, type, presets } = { mode: 'production', presets: [] }) => webpackMerge(
+const webpackConfig = ({ mode, type, presets } = { mode: 'production', presets: [] }) => webpackMerge(
   {
     mode,
     module: {
@@ -51,3 +54,6 @@ module.exports = ({ mode, type, presets } = { mode: 'production', presets: [] })
   modeConfig(type),
   presetConfig({ mode, presets })
 );
+
+
+module.exports = webpackConfig;

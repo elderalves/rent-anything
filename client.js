@@ -4,15 +4,21 @@ import ReactDOM from 'react-dom';
 import Router from './core/Router';
 
 function run() {
-  const component = Router.match({
-    path: window.location.pathname
+  const state = window.AppState;
+  const container = document.getElementById('app');
+  const location = { path: window.location.pathname };
+
+  const [component, page] = Router.match(location, state);
+
+  ReactDOM.hydrate(component, container, () => {
+    document.title = page.title;
+    document.querySelector('meta[name=description]').setAttribute('content', page.description);
   });
-  ReactDOM.hydrate(component, document.getElementById('app'));
 }
 
 const loadedStates = ['complete', 'loaded', 'interactive'];
 
-if(loadedStates.includes(document.readyState) && document.body) {
+if (loadedStates.includes(document.readyState) && document.body) {
   run();
 } else {
   window.addEventListener('DOMContentLoaded', run, false);

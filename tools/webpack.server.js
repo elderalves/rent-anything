@@ -35,18 +35,7 @@ module.exports = () => ({
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new BrowserSyncPlugin({
-      host: 'localhost',
-      port: 3002,
-      proxy: {
-        target: 'http://localhost:3000/'
-      },
-      files: [
-        '**/*.css'
-      ]
-    })
+
   ],
   target: 'node',
   node: {

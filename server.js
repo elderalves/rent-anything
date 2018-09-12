@@ -10,13 +10,23 @@ const port = process.env.PORT || 3000;
 
 server.use(express.static(path.join(__dirname, 'public')));
 
+server.use((req, res, next) => {
+  if (typeof req.query.admin !== 'undefined') {
+    req.user = { name: 'Tarkus' };
+  } else {
+    req.user = null;
+  }
+  next();
+});
+
 server.get('*', (req, res) => {
-  const component = Router.match(req);
+  const state = { user: req.user };
+  const [component, page] = Router.match(req, state);
   const body = ReactDOM.renderToString(component);
   const html = ReactDOM.renderToStaticMarkup(
-    <Html title="My App" description="Isomorphic web application sample" body={body} />
+    <Html title={page.title} description={page.description} body={body} state={state} />
   );
-  res.send(`<!doctype html>\n${html}`);
+  res.status(page.status).send(`<!doctype html>\n${html}`);
 });
 
 server.listen(port, () => {
